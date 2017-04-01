@@ -48,8 +48,9 @@ def lookupUsernamePassword(username, password):
 
     if not result:
         return False
+
     hashed = str(result['password'])
-    if hashpw(password, hashed) == hashed:
+    if hashpw(str(password), hashed) == hashed:
         return True
 
     return False
@@ -58,7 +59,7 @@ def lookupUsernamePassword(username, password):
 def createUsernamePassword(username, password):
     conn = sqlite3.connect(PLAYER_DB)
     c = conn.cursor()
-    values = (username, hashpw(password, gensalt(13)), -1, -1, 100.0, '', '', '')
+    values = (str(username), hashpw(str(password), gensalt(13)), -1, -1, 100.0, '', '', '')
     try:
         c.execute('''
         INSERT INTO players
@@ -66,6 +67,7 @@ def createUsernamePassword(username, password):
         ''', values)
         conn.commit()
         conn.close()
+
     except sqlite3.IntegrityError:
         return "Username probably taken"
 

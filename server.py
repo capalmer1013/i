@@ -14,8 +14,22 @@ def login(jsonDict):
     return playerDb.lookupUsernamePassword(str(jsonDict['username']), str(jsonDict['password']))
 
 
+def ping(jsonDict):
+    return jsonDict['id']
+
+
+def createPlayer(jsonDict):
+    result = playerDb.createUsernamePassword(jsonDict['username'], jsonDict['password'])
+    if result == 'success':
+        return json.dumps({'message': 'createPlayer', 'response': 'success'})
+    else:
+        print result
+        return json.dumps({'message': 'createPlayer', 'response': 'failure'})
+
 processMessage = {
-    'login': login
+    'login': login,
+    'ping': ping,
+    'createPlayer': createPlayer,
 }
 
 
