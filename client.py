@@ -8,10 +8,36 @@ DEBUG = True
 
 SENDPORT = 5008
 RECEIVEPORT = 5009
+MESSAGERECEIVE = 5010
 serverIP = 'localhost' if DEBUG else 'something else'  # I'll figure this out at some point
 
+messageSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+messageSock.settimeout(0)
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.settimeout(3)
+
+
+def sendGlobalChat(message):
+    jsonDict = {
+        'message': 'sendGlobalChat',
+        'chat': str(message)
+    }
+    sock.sendto(json.dumps(jsonDict), (serverIP, SENDPORT))  # all messaging stuff should be on a different socket
+
+    #received = json.loads(sock.recv(1024))
+
+
+def sendGroupChat(message, groupId):
+    pass
+
+
+def sendDirectMessageChat(message, playerName):
+    pass
+
+
+def receiveAllMessages():
+    result = sock.recv(1024)
+    pass
 
 
 def createAccount(username, password):

@@ -1,13 +1,15 @@
 import SocketServer
-import time
-import sqlite3
 import json
+import socket
 from objects import playerDb
 
 DEBUG = True
 ANY = '0.0.0.0'
 SENDERPORT = 5009
 RECEIVERPORT = 5008
+
+messageSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+connectedClients = []
 
 
 def login(jsonDict):
@@ -22,9 +24,23 @@ def createPlayer(jsonDict):
     result = playerDb.createUsernamePassword(jsonDict['username'], jsonDict['password'])
     if result == 'success':
         return json.dumps({'message': 'createPlayer', 'response': 'success'})
+
     else:
-        print result
         return json.dumps({'message': 'createPlayer', 'response': 'failure'})
+
+
+def sendGlobalChat(jsondict):
+    for client in connectedClients:
+        messageSock.sendto(json.dumps(jsondict), (client, 5010))
+    pass
+
+
+def sendGroupChat(jsonDict):
+    pass
+
+
+def sendDirectMessageChat(jsonDict):
+    pass
 
 processMessage = {
     'login': login,
@@ -37,10 +53,11 @@ class MyUDPHandler (SocketServer.BaseRequestHandler):
     def handle(self):
         data = self.request[0].strip()
         sock = self.request[1]
-        print "{} wrote:".format(self.client_address[0])
         dataDict = json.loads(data)
+        dataDict['address'] = self.client_address[0]
+
         result = processMessage[dataDict['message']](dataDict)
-        print data
+        print self.client_address, dataDict['message']
         sock.sendto(str(result), self.client_address)
 
 
