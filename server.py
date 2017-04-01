@@ -1,4 +1,3 @@
-import socket
 import SocketServer
 import time
 import sqlite3
