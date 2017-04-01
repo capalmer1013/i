@@ -79,6 +79,6 @@ if __name__ == "__main__":
     user = raw_input("username: ")
     password = getpass.getpass("password: ")
     #createUsernamePassword(user, password)
-    a = "success" if lookupUsernamePassword(user, password) else "you fucked up"
+    a = "success" if lookupUsernamePassword(user, password) else "you messed up"
     print a
     #removeAllPlayers()
