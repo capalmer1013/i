@@ -30,8 +30,9 @@ def createPlayer(jsonDict):
 
 
 def sendGlobalChat(jsondict):
-    for client in connectedClients:
-        messageSock.sendto(json.dumps(jsondict), (client, 5010))
+    print jsondict['address']
+    return json.dumps(jsondict)
+
     pass
 
 
@@ -46,6 +47,7 @@ processMessage = {
     'login': login,
     'ping': ping,
     'createPlayer': createPlayer,
+    'sendGlobalChat': sendGlobalChat,
 }
 
 
@@ -54,8 +56,8 @@ class MyUDPHandler (SocketServer.BaseRequestHandler):
         data = self.request[0].strip()
         sock = self.request[1]
         dataDict = json.loads(data)
-        dataDict['address'] = self.client_address[0]
-
+        dataDict['address'] = self.client_address
+        connectedClients.append(self.client_address)
         result = processMessage[dataDict['message']](dataDict)
         print self.client_address, dataDict['message']
         sock.sendto(str(result), self.client_address)

@@ -24,7 +24,8 @@ def sendGlobalChat(message):
     }
     sock.sendto(json.dumps(jsonDict), (serverIP, SENDPORT))  # all messaging stuff should be on a different socket
 
-    #received = json.loads(sock.recv(1024))
+    received = json.loads(sock.recv(1024))
+    print received['chat']
 
 
 def sendGroupChat(message, groupId):
@@ -36,7 +37,8 @@ def sendDirectMessageChat(message, playerName):
 
 
 def receiveAllMessages():
-    result = sock.recv(1024)
+    result = messageSock.recv(1024)
+    print result
     pass
 
 
@@ -96,9 +98,12 @@ def login():
 
 
 def main():
-    username = raw_input("username: ")
-    password = getpass.getpass("password")
-    createAccount(username, password)
+    #username = raw_input("username: ")
+    #password = getpass.getpass("password")
+    #createAccount(username, password)
+    #login()
+    sendGlobalChat(raw_input(">>>"))
+    #print sock.recv(1024)
 
 
 if __name__ == "__main__":
