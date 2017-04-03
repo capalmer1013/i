@@ -22,7 +22,7 @@ def main(scr):
     chatWindow.addstr(0, 0, "ChatWindow", curses.A_REVERSE)
     infoWindow.addstr(0, 0, "InfoWindow", curses.A_REVERSE)
 
-    chatWindow.addstr(1, 1, ">>>")
+    chatWindow.addstr(1, 1, ">>> ")
 
 
     mainWindow.refresh()
