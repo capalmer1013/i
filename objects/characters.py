@@ -46,4 +46,5 @@ class mainPlayer:
         self.lastMove = 0
         self.speed = .1
         
-    def moveX(self, mag
+    def moveX(self, mag):
+        pass
