@@ -6,10 +6,10 @@ import time
 
 DEBUG = True
 
-SENDPORT = 5008
+SENDPORT = 5000
 RECEIVEPORT = 5009
 MESSAGERECEIVE = 5010
-serverIP = 'localhost' if DEBUG else 'something else'  # I'll figure this out at some point
+serverIP = 'localhost' if DEBUG else 'capalmer1013.co.uk'
 
 messageSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 messageSock.settimeout(0)
