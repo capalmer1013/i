@@ -20,12 +20,13 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         lastSleep = 0.1
         startTime = time.time()
         username = self.request.recv(1024).strip()
+        self.request.sendall("connected.")
         # self.request is the TCP socket connected to the client
         while time.time() - startTime < connectionTimeout:
             self.data = self.request.recv(1024).strip()
             print "{} wrote:".format(self.client_address[0])
             print self.data
-            self.request.sendall(self.data.upper())
+            self.request.sendall(username + ">" + self.data)
 
         numConn -= 1
 
