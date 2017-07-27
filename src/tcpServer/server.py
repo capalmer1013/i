@@ -37,7 +37,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             try:
                 time.sleep(lastSleep)
                 lastSleep *= 2
-                inputReady, _ , _ = select.select([self.request], [], [], timeout=0.5)
+                inputReady, _ , _ = select.select([self.request], [], [], 0.5)
                 if inputReady:
                     self.data = self.request.recv(1024).strip()
                     print "{} wrote:".format(self.client_address[0])
