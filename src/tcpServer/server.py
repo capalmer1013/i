@@ -2,7 +2,7 @@ import SocketServer
 import time
 import select
 
-connectionTimeout = 600.00
+connectionTimeout = 60.00
 connectedUsers = {}
 
 def sendOthers(username, message):
@@ -47,7 +47,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                 print self.data
                 self.request.sendall(">" + self.data)
 
-
+        self.request.sendall("Connection Timeout.")
 if __name__ == "__main__":
     HOST, PORT = "0.0.0.0", 5000
 
