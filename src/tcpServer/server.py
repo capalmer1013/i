@@ -43,6 +43,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                     self.data = self.request.recv(1024).strip()
                     print "{} wrote:".format(self.client_address[0])
                     print self.data
+                    sendOthers(username, self.data)
                     self.request.sendall(">" + self.data)
             
             except:
