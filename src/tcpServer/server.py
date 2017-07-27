@@ -34,9 +34,9 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 
         lastSleep = initialTimeout
         startTime = time.time()
-        self.request.setblocking(0)
+        
         username = self.request.recv(1024).strip()
-
+        self.request.setblocking(0)
         if username not in connectedUsers:
             self.request.sendall(str(len(connectedUsers)) + "connected users.")
             connectedUsers[username] = self.request
