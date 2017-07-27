@@ -24,7 +24,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 
         lastSleep = 0.1
         startTime = time.time()
-
+        self.request.setblocking(0)
         username = self.request.recv(1024).strip()
 
         if username not in connectedUsers:
