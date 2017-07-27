@@ -36,7 +36,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         while time.time() - startTime < connectionTimeout:
             try:
                 time.sleep(lastSleep)
-                lastSleep *= 2
+                lastSleep += 0.1
                 inputReady, _ , _ = select.select([self.request], [], [], 0.5)
                 if inputReady:
                     lastSleep = initialTimeout

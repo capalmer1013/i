@@ -13,7 +13,9 @@ def printRecv():
     global loopRecv
     while loopRecv:
         time.sleep(.5)
-        print sock.recv(1024)
+        response = sock.recv(1024)
+        if response == "Connection Timeout.":
+            loopRecv = False
 
 
 
