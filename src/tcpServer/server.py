@@ -44,7 +44,8 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                     print "{} wrote:".format(self.client_address[0])
                     print self.data
                     sendOthers(username, self.data)
-                    self.request.sendall(">" + self.data)
+                    # don't need to send stuff we;ve already seen
+                    # self.request.sendall(">" + self.data)
             
             except Exception as e:
                 print e

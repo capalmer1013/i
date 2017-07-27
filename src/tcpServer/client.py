@@ -14,10 +14,9 @@ def printRecv():
     while loopRecv:
         time.sleep(.5)
         response = sock.recv(1024)
+        print response
         if response == "Connection Timeout.":
             loopRecv = False
-
-
 
 try:
     # Connect to server and send data
@@ -27,7 +26,7 @@ try:
     server_thread.daemon = True
     server_thread.start()
 
-    while data.lower() != 'q':
+    while data.lower() != 'q' and loopRecv:
         sock.sendall(data + "\n")
         data = str(raw_input())
 
