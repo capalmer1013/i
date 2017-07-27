@@ -11,14 +11,14 @@ try:
     # Connect to server and send data
     sock.connect((HOST, PORT))
     data = username
-    
+
     while data.lower() != 'q':
         sock.sendall(data + "\n")
 
         # Receive data from the server and shut down
         received = sock.recv(1024)
-        print "Sent:     {}".format(data)
-        print "Received: {}".format(received)
+        # print "Sent:     {}".format(data)
+        print received
         data = str(raw_input(">"))
 finally:
     sock.close()

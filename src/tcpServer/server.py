@@ -2,8 +2,14 @@ import SocketServer
 import time
 import select
 
-connectionTimeout = 10.00
-numConn = 0
+connectionTimeout = 600.00
+connectedUsers = {}
+
+def sendOthers(username, message):
+    for user in connectedUsers:
+        if user != username:
+            connectedUsers[user].sendall(username+'>'+message)
+
 class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
     The request handler class for our server.
@@ -14,21 +20,33 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
 
     def handle(self):
-        global numConn
-        numConn += 1
-        print "num connections:", numConn
+        global connectedUsers
+
         lastSleep = 0.1
         startTime = time.time()
+
         username = self.request.recv(1024).strip()
-        self.request.sendall("connected.")
+
+        if username not in connectedUsers:
+            self.request.sendall(str(len(connectedUsers)) + "connected users.")
+            connectedUsers[username] = self.request
+
+        else:
+            self.request.sendall("Connection failed. Username taken.")
+            return
+
         # self.request is the TCP socket connected to the client
         while time.time() - startTime < connectionTimeout:
-            self.data = self.request.recv(1024).strip()
-            print "{} wrote:".format(self.client_address[0])
-            print self.data
-            self.request.sendall(username + ">" + self.data)
+            time.sleep(lastSleep)
+            lastSleep *= 2
+            inputReady, _ , _ = select.select([self.request], [], [])
 
-        numConn -= 1
+            if inputReady:
+                self.data = self.request.recv(1024).strip()
+                print "{} wrote:".format(self.client_address[0])
+                print self.data
+                self.request.sendall(">" + self.data)
+
 
 if __name__ == "__main__":
     HOST, PORT = "0.0.0.0", 5000
