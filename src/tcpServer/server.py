@@ -4,7 +4,7 @@ import select
 
 connectionTimeout = 60.00
 connectedUsers = {}
-
+initialTimeout = 0.1
 def sendOthers(username, message):
     for user in connectedUsers:
         if user != username:
@@ -19,7 +19,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         global connectedUsers
 
-        lastSleep = 0.1
+        lastSleep = initialTimeout
         startTime = time.time()
         self.request.setblocking(0)
         username = self.request.recv(1024).strip()
@@ -39,6 +39,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                 lastSleep *= 2
                 inputReady, _ , _ = select.select([self.request], [], [], 0.5)
                 if inputReady:
+                    lastSleep = initialTimeout
                     self.data = self.request.recv(1024).strip()
                     print "{} wrote:".format(self.client_address[0])
                     print self.data
