@@ -46,16 +46,22 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                     self.request.sendall(">" + self.data)
             
             except:
-                del [key]
+                del connectedUsers[username]
                 return
         
+        del connectedUsers[username]
         self.request.sendall("Connection Timeout.")
+
+class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
+    pass
+
 if __name__ == "__main__":
     HOST, PORT = "0.0.0.0", 5000
 
-    # Create the server, binding to localhost on port 9999
-    server = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
+    # old way no threads just 1 connection
+    # server = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
 
+    server = ThreadedTCPServer((HOST, PORT), MyTCPHandler)
     # Activate the server; this will keep running until you
     # interrupt the program with Ctrl-C
     server.serve_forever()
