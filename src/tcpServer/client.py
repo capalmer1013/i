@@ -28,6 +28,10 @@ try:
     sock.connect((HOST, PORT))
     data = username
 
+    ping_thread = threading.Thread(target=keepAlive)
+    ping_thread.daemon = True
+    ping_thread.start()
+    
     server_thread = threading.Thread(target=printRecv)
     server_thread.daemon = True
     server_thread.start()

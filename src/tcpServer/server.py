@@ -39,10 +39,11 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                 lastSleep += 0.1
                 inputReady, _ , _ = select.select([self.request], [], [], 0.5)
                 if inputReady:
+                    startTime = time.time()
                     lastSleep = initialTimeout
                     self.data = self.request.recv(1024).strip()
-                    print "{} wrote:".format(self.client_address[0])
-                    print self.data
+                    #print "{} wrote:".format(self.client_address[0])
+                    #print self.data
                     if self.data and self.data != "<PING>":
                         sendOthers(username, self.data)
             
