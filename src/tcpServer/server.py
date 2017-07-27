@@ -43,10 +43,8 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                     self.data = self.request.recv(1024).strip()
                     print "{} wrote:".format(self.client_address[0])
                     print self.data
-                    if self.data != "<PING>":
+                    if self.data and self.data != "<PING>":
                         sendOthers(username, self.data)
-                    # don't need to send stuff we;ve already seen
-                    # self.request.sendall(">" + self.data)
             
             except Exception as e:
                 print e
