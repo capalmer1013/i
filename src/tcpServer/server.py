@@ -13,6 +13,7 @@ connectedUsers = {}
 initialTimeout = 0.1
 
 def sendOthers(username, message):
+    usersToRemove = []
     for user in connectedUsers:
         if user != username:
             try:
@@ -20,9 +21,10 @@ def sendOthers(username, message):
 
             except Exception as e:
                 print e
-                if username in connectedUsers:
-                    print "removing user", username
-                    del connectedUsers[username]
+                usersToRemove.append(username)
+
+    for each in usersToRemove:
+        del connectedUsers[each]
 
 
 class MyTCPHandler(SocketServer.BaseRequestHandler):
@@ -70,6 +72,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         
         if username in connectedUsers:
             del connectedUsers[username]
+
         self.request.sendall("Connection Timeout.")
 
 
