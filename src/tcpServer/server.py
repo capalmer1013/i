@@ -45,7 +45,8 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                     sendOthers(username, self.data)
                     self.request.sendall(">" + self.data)
             
-            except:
+            except Exception as e:
+                print e
                 del connectedUsers[username]
                 return
         
