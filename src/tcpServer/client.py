@@ -3,7 +3,7 @@ import sys
 import threading
 import time
 
-HOST, PORT = "10.0.0.21", 5000
+HOST, PORT = "capalmer1013.co.uk", 5000
 username = " ".join(sys.argv[1:])
 loopRecv = True
 pingTime = 10.0
@@ -31,7 +31,7 @@ try:
     ping_thread = threading.Thread(target=keepAlive)
     ping_thread.daemon = True
     ping_thread.start()
-    
+
     server_thread = threading.Thread(target=printRecv)
     server_thread.daemon = True
     server_thread.start()
