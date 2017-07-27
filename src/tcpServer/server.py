@@ -1,3 +1,9 @@
+"""
+This is the server for a udp based chat application.
+It keeps the udp connections open to receive and send messages to connected users.
+Once I get this working it will need to be abstracted and properly designed.
+Right now it is in the experimental phase.
+"""
 import SocketServer
 import time
 import select
@@ -5,10 +11,17 @@ import select
 connectionTimeout = 60.00
 connectedUsers = {}
 initialTimeout = 0.1
+
 def sendOthers(username, message):
     for user in connectedUsers:
         if user != username:
-            connectedUsers[user].sendall(username+'>'+message)
+            try:
+                connectedUsers[user].sendall(username+'>'+message)
+            except Exception as e:
+                print e
+                print "removing user", username
+                del connectedUsers[username]
+
 
 class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
@@ -55,8 +68,10 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         del connectedUsers[username]
         self.request.sendall("Connection Timeout.")
 
+
 class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
     pass
+
 
 if __name__ == "__main__":
     HOST, PORT = "0.0.0.0", 5000
@@ -65,8 +80,7 @@ if __name__ == "__main__":
     # server = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
 
     server = ThreadedTCPServer((HOST, PORT), MyTCPHandler)
-    # Activate the server; this will keep running until you
-    # interrupt the program with Ctrl-C
+
     server.serve_forever()
     server.shutdown()
     server.server_close()
