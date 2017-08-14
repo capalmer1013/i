@@ -24,6 +24,7 @@ Version feature roadway
 
 
 ## Design Notes
+**Objects**
 - main files
     - client
     - server
@@ -35,3 +36,39 @@ Version feature roadway
     - display
     - database
 
+
+## Features that might be cool or just silly
+- different levels of play
+    - can play game as an rts where you essentially control armies of people and gather resources while there are people who may be playing as individuals
+    - can get conscripted into an army as an individual player
+   
+- class systems
+    - warrior
+    - trader
+    - etc...
+    
+- some kind of economy system
+
+- real real time npc's
+    - should get to a point where can fire up the game and watch it in an ecosystem kind of way
+    
+- different kinds of frontends to interact with the serverside stuff
+    - can be played with a cli or gui
+
+
+## Objects
+- need
+    - walls
+        - wood
+        - stone
+
+    - rocks
+    - trees
+        - wood
+
+    - food
+    - animals
+
+- want
+
+- maybe later
