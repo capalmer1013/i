@@ -6,7 +6,7 @@
     "test": {
       "addons": ["heroku-postgresql:in-dyno"],
       "scripts": {
-        "test-setup": "cd tests && ln -s ../sharesecurely sharesecurely && cd ../ && make db-upgrade",
+        "test-setup": "cd tests && ln -s ../ibackend ibackend && cd ../ && make db-upgrade",
         "test": "make tests"
       }
     }
