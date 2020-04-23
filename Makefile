@@ -23,7 +23,7 @@ lint:
 	pipenv run black ./ibackend ./tests
 
 local-server:
-	pipenv run gunicorn ibackend:app --bind 0.0.0.0:8000
+	pipenv run uvicorn ibackend:app --reload
 
 tests:
 	pipenv run black --check ./ibackend ./tests
