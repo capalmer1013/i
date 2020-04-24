@@ -1,7 +1,6 @@
 const width = 600;
 const height = 480;
 const speed = 110;
-
 const config = {
     type: Phaser.WEBGL,
     width: width,
@@ -67,6 +66,8 @@ function preload() {
     this.load.image('Sand',  'assets/Sand.png');
     this.load.image('Bomb',  'assets/bomb.png');
     this.load.image('inventory',  'assets/inventory.png');
+    this.load.image('fist',  'assets/fist.png');
+    this.load.image('arrow', 'assets/arrow.png')
     this.load.spritesheet('dude', 'assets/character.png', { frameWidth: 32, frameHeight: 32 });
     //noise.seed(Math.random());
     //cursors = this.input.keyboard.createCursorKeys();
@@ -90,6 +91,14 @@ function shoot(){
     var dir = chr.facing
     console.log("shoot")
     var b = bullets.create(player.x, player.y, 'Bomb');
+    b.setScale(0.5)
+    setTimeout(function(){
+        console.log("bullet timeout")
+        console.log(b)
+        b.setActive(false);
+        b.setVisible(false);
+        b.body.stop();
+    }, 1000)
     var bspeed = speed *3
     if(dir === "up"){
         b.setVelocityY(-bspeed) 
@@ -121,8 +130,13 @@ function create() {
 
     trees = this.physics.add.staticGroup();
     bullets = this.physics.add.group();
-    t = trees.create(tree.x, tree.y, tree.key);
-    t.setScale(2)
+    for(var i = 0;i< 10; i++){
+        x = Math.floor(Math.random() * width) + 1;
+        y = Math.floor(Math.random() * height) + 1;
+        console.log(x, ",", y)
+        t = trees.create(x, y, tree.key);
+        t.setScale(2)
+    }
     
     player = this.physics.add.sprite(chr.x, chr.y, 'dude')
     player.setCollideWorldBounds(true);
@@ -205,7 +219,9 @@ function update() {
 function draw(scene) {
     // scene.add.image(tree.x, tree.y, tree.key);
     scene.add.image(width/2, height-18, 'inventory');
-
+    scene.add.image(width/2-64, height-18, 'fist');
+    scene.add.image(width/2-32, height-18, 'Bomb')
+    scene.add.image(width/2-64, height-50, 'arrow')
 }
 
 function between(value1, value2, value3) {
